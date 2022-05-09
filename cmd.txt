@@ -3,4 +3,6 @@ git -rm --cached index.html -> to remove index.html from staging area;
 git show #hash -> to show all the files that were worked on
 vi index.hml -> opens the file in the terminal;
 vi index.html, i -> to insert lines in the terminal; esc; : ;wq enter;
-git diff; to check difference on files worked on
+git diff; to check difference on files worked on;
+git restore index.html -> more like ctrl z on a file;
+git commit --amend -m 'added sth new"
