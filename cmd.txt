@@ -1,0 +1,6 @@
+git -rm -r --cached . -> to remove aall files from staging area;
+git -rm --cached index.html -> to remove index.html from staging area;
+git show #hash -> to show all the files that were worked on
+vi index.hml -> opens the file in the terminal;
+vi index.html, i -> to insert lines in the terminal; esc; : ;wq enter;
+git diff; to check difference on files worked on
