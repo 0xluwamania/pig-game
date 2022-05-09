@@ -6,3 +6,7 @@ vi index.html, i -> to insert lines in the terminal; esc; : ;wq enter;
 git diff; to check difference on files worked on;
 git restore index.html -> more like ctrl z on a file;
 git commit --amend -m 'added sth new"
+git branch -r -> remot branches
+git branch a -> remote and local branches;
+git branch game-winner -> create a new branch called game-winner
+git checkout game-winner -> to checkout to the game-winner branch
