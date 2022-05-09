@@ -12,4 +12,5 @@ git branch game-winner -> create a new branch called game-winner
 git checkout game-winner -> to checkout to the game-winner branch
 git checkout -b innit -> creat a innit branch and checkout into it immediately;
 git branch -d innit -> to delete ->  deletes the branch named
-git log --oneline -> creates a more compact log history
+git log --oneline -> creates a more compact log history;
+aa
