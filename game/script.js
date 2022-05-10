@@ -7,6 +7,12 @@ let playerOneScore = 0;
 let playerTwoScore = 0;
 let rollDice;
 let playerOne = document.querySelector(".player--0");
+document.querySelector(".dice").classList.add("hidden");
+let promptPlayerOne = prompt("Player 1, Whats your name ?");
+let promptPlayerTwo = prompt("Player 2, Whats your name ?");
+
+document.querySelector("#name--0").textContent = promptPlayerOne;
+document.querySelector("#name--1").textContent = promptPlayerTwo;
 
 // dice is rolled and switch cases to change the dice shown
 let diceRoll = function () {
@@ -37,6 +43,7 @@ let diceRoll = function () {
 
 // When the roll dice button is clicked
 document.querySelector(".btn--roll").addEventListener("click", function () {
+  document.querySelector(".dice").classList.remove("hidden");
   // dice roll function is performed with switch cases for images
   diceRoll();
 
@@ -53,8 +60,8 @@ document.querySelector(".btn--roll").addEventListener("click", function () {
       document
         .querySelector(".btn--hold")
         .addEventListener("click", function () {
-          playerOneScore += scoreOne;
           if (playerOneScore < 100) {
+            playerOneScore += scoreOne;
             document.querySelector("#score--0").textContent = playerOneScore;
             playerOne.classList.remove("player--active");
             playerTwo.classList.add("player--active");
@@ -62,8 +69,9 @@ document.querySelector(".btn--roll").addEventListener("click", function () {
             scoreOne = 0;
             document.querySelector("#current--0").textContent = scoreOne;
           } else if (playerOneScore >= 100) {
-            document.querySelector("#name--0").textContent =
-              "Player 1 wins the game";
+            document.querySelector(
+              "#name--0"
+            ).textContent = `${promptPlayerOne} wins the game`;
             document.querySelector("#score--0").textContent = playerOneScore;
             playerOne.classList.add("player--winner");
           }
@@ -97,10 +105,14 @@ document.querySelector(".btn--roll").addEventListener("click", function () {
             player = 0;
             scoreTwo = 0;
             document.querySelector("#current--1").textContent = scoreTwo;
-          } else if (playerTwoScore >= 100) {
-            document.querySelector("#name--1").textContent =
-              "Player 2 wins the game";
-            document.querySelector("#score--0").textContent = playerTwoScore;
+          }
+
+          // Player two greater than 100
+          else if (playerTwoScore >= 100) {
+            document.querySelector(
+              "#name--1"
+            ).textContent = `${promptPlayerTwo} wins the game`;
+            document.querySelector("#score--1").textContent = playerTwoScore;
             playerTwo.classList.add("player--winner");
           }
         });
@@ -114,4 +126,22 @@ document.querySelector(".btn--roll").addEventListener("click", function () {
       document.querySelector("#current--1").textContent = scoreOne;
     }
   }
+});
+
+document.querySelector(".btn--new").addEventListener("click", function () {
+  player = 0;
+  scoreOne = 0;
+  scoreTwo = 0;
+  playerOneScore = 0;
+  playerTwoScore = 0;
+  document.querySelector("#current--1").textContent = scoreTwo;
+  document.querySelector("#current--0").textContent = scoreOne;
+  document.querySelector("#score--1").textContent = playerTwoScore;
+  document.querySelector("#score--0").textContent = playerOneScore;
+  playerOne.classList.add("player--active");
+  document.querySelector(".dice").classList.add("hidden");
+  playerOne.classList.remove("player--winner");
+  playerTwo.classList.remove("player--winner");
+  document.querySelector("#name--0").textContent = promptPlayerOne;
+  document.querySelector("#name--1").textContent = promptPlayerTwo;
 });
