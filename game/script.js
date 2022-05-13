@@ -139,6 +139,7 @@ document.querySelector(".btn--new").addEventListener("click", function () {
   document.querySelector("#score--1").textContent = playerTwoScore;
   document.querySelector("#score--0").textContent = playerOneScore;
   playerOne.classList.add("player--active");
+  playerTwo.classList.remove("player--active");
   document.querySelector(".dice").classList.add("hidden");
   playerOne.classList.remove("player--winner");
   playerTwo.classList.remove("player--winner");
