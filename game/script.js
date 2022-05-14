@@ -8,11 +8,13 @@ let playerTwoScore = 0;
 let rollDice;
 let playerOne = document.querySelector(".player--0");
 document.querySelector(".dice").classList.add("hidden");
-let promptPlayerOne = prompt("Player 1, Whats your name ?");
-let promptPlayerTwo = prompt("Player 2, Whats your name ?");
+let promptPlayerOne = "";
+let promptPlayerTwo = "";
+let btnTwoPlayers = document.querySelector(".btn--two");
+let btnVsComputer = document.querySelector(".btn--computer");
 
-document.querySelector("#name--0").textContent = promptPlayerOne;
-document.querySelector("#name--1").textContent = promptPlayerTwo;
+const btnRoll = document.querySelector(".btn--roll");
+const btnHold = document.querySelector(".btn--hold");
 
 // dice is rolled and switch cases to change the dice shown
 let diceRoll = function () {
@@ -41,8 +43,25 @@ let diceRoll = function () {
   }
 };
 
+// When you click on Two Players
+btnTwoPlayers.addEventListener("click", function () {
+  document.querySelector("#name--0").textContent = prompt(
+    "Player 1, Whats your name ?"
+  );
+  document.querySelector("#name--1").textContent = prompt(
+    "Player 2, Whats your name ?"
+  );
+});
+
+btnVsComputer.addEventListener("click", function () {
+  document.querySelector("#name--0").textContent = prompt(
+    "Player 1, Whats your name ?"
+  );
+  document.querySelector("#name--1").textContent = "Computer";
+});
+
 // When the roll dice button is clicked
-document.querySelector(".btn--roll").addEventListener("click", function () {
+btnRoll.addEventListener("click", function () {
   document.querySelector(".dice").classList.remove("hidden");
   // dice roll function is performed with switch cases for images
   diceRoll();
@@ -56,34 +75,38 @@ document.querySelector(".btn--roll").addEventListener("click", function () {
       // make score = rolled dice value and display same
       scoreOne += rollDice;
       document.querySelector("#current--0").textContent = scoreOne;
+
       //   if player 1 wants fold and cash out his game
-      document
-        .querySelector(".btn--hold")
-        .addEventListener("click", function () {
-          if (playerOneScore < 100) {
-            playerOneScore += scoreOne;
-            document.querySelector("#score--0").textContent = playerOneScore;
-            playerOne.classList.remove("player--active");
-            playerTwo.classList.add("player--active");
-            player = 1;
-            scoreOne = 0;
-            document.querySelector("#current--0").textContent = scoreOne;
-          } else if (playerOneScore >= 100) {
-            document.querySelector(
-              "#name--0"
-            ).textContent = `${promptPlayerOne} wins the game`;
-            document.querySelector("#score--0").textContent = playerOneScore;
-            playerOne.classList.add("player--winner");
-          }
-        });
+
+      btnHold.addEventListener("click", function () {
+        if (playerOneScore < 100) {
+          playerOneScore += scoreOne;
+          document.querySelector("#score--0").textContent = playerOneScore;
+          playerOne.classList.remove("player--active");
+          playerTwo.classList.add("player--active");
+          player = 1;
+          scoreOne = 0;
+          document.querySelector("#current--0").textContent = scoreOne;
+        } else if (playerOneScore >= 100) {
+          document.querySelector(
+            "#name--0"
+          ).textContent = `${promptPlayerOne} wins the game`;
+          document.querySelector("#score--0").textContent = playerOneScore;
+          playerOne.classList.add("player--winner");
+        }
+      });
     }
     // if rolldice = 1, dont add anything to score, just switch to player 2
     else {
-      playerOne.classList.remove("player--active");
-      playerTwo.classList.add("player--active");
-      player = 1;
-      scoreOne = 0;
-      document.querySelector("#current--0").textContent = scoreOne;
+      btnRoll.disabled = true;
+      setTimeout(function () {
+        btnRoll.disabled = false;
+        playerOne.classList.remove("player--active");
+        playerTwo.classList.add("player--active");
+        player = 1;
+        scoreOne = 0;
+        document.querySelector("#current--0").textContent = scoreOne;
+      }, 3000);
     }
   }
 
@@ -94,36 +117,38 @@ document.querySelector(".btn--roll").addEventListener("click", function () {
       scoreTwo += rollDice;
       document.querySelector("#current--1").textContent = scoreTwo;
 
-      document
-        .querySelector(".btn--hold")
-        .addEventListener("click", function () {
-          if (playerTwoScore < 100) {
-            playerTwoScore += scoreTwo;
-            document.querySelector("#score--1").textContent = playerTwoScore;
-            playerTwo.classList.remove("player--active");
-            playerOne.classList.add("player--active");
-            player = 0;
-            scoreTwo = 0;
-            document.querySelector("#current--1").textContent = scoreTwo;
-          }
+      btnHold.addEventListener("click", function () {
+        if (playerTwoScore < 100) {
+          playerTwoScore += scoreTwo;
+          document.querySelector("#score--1").textContent = playerTwoScore;
+          playerTwo.classList.remove("player--active");
+          playerOne.classList.add("player--active");
+          player = 0;
+          scoreTwo = 0;
+          document.querySelector("#current--1").textContent = scoreTwo;
+        }
 
-          // Player two greater than 100
-          else if (playerTwoScore >= 100) {
-            document.querySelector(
-              "#name--1"
-            ).textContent = `${promptPlayerTwo} wins the game`;
-            document.querySelector("#score--1").textContent = playerTwoScore;
-            playerTwo.classList.add("player--winner");
-          }
-        });
+        // Player two greater than 100
+        else if (playerTwoScore >= 100) {
+          document.querySelector(
+            "#name--1"
+          ).textContent = `${promptPlayerTwo} wins the game`;
+          document.querySelector("#score--1").textContent = playerTwoScore;
+          playerTwo.classList.add("player--winner");
+        }
+      });
     }
     // if rolldice = 1, dont add anything to score, just switch to player 1
     else {
-      playerTwo.classList.remove("player--active");
-      playerOne.classList.add("player--active");
-      player = 0;
-      scoreTwo = 0;
-      document.querySelector("#current--1").textContent = scoreOne;
+      btnRoll.disabled = true;
+      setTimeout(function () {
+        btnRoll.disabled = false;
+        playerTwo.classList.remove("player--active");
+        playerOne.classList.add("player--active");
+        player = 0;
+        scoreTwo = 0;
+        document.querySelector("#current--1").textContent = scoreOne;
+      }, 3000);
     }
   }
 });
