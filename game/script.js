@@ -51,6 +51,12 @@ btnTwoPlayers.addEventListener("click", function () {
   document.querySelector("#name--1").textContent = prompt(
     "Player 2, Whats your name ?"
   );
+  document.querySelector("#score--0").textContent = 0;
+  document.querySelector("#score--1").textContent = 0;
+  btnVsComputer.classList.add("hidden");
+  btnTwoPlayers.classList.add("hidden");
+  btnVsComputer.disabled = true;
+  btnTwoPlayers.disabled = false;
 });
 
 btnVsComputer.addEventListener("click", function () {
@@ -58,6 +64,12 @@ btnVsComputer.addEventListener("click", function () {
     "Player 1, Whats your name ?"
   );
   document.querySelector("#name--1").textContent = "Computer";
+  document.querySelector("#score--0").textContent = 0;
+  document.querySelector("#score--1").textContent = 0;
+  btnVsComputer.classList.add("hidden");
+  btnVsComputer.disabled = false;
+  btnTwoPlayers.disabled = true;
+  btnTwoPlayers.classList.add("hidden");
 });
 
 // When the roll dice button is clicked
@@ -84,9 +96,50 @@ btnRoll.addEventListener("click", function () {
           document.querySelector("#score--0").textContent = playerOneScore;
           playerOne.classList.remove("player--active");
           playerTwo.classList.add("player--active");
-          player = 1;
+          !btnTwoPlayers.disabled ? (player = 1) : (player = 2);
           scoreOne = 0;
           document.querySelector("#current--0").textContent = scoreOne;
+
+          //computer turn when player hits the hold button
+          if (player == 2) {
+            btnRoll.disabled = true;
+            let compTurns = Math.trunc(Math.random() * 4) + 1;
+            for (let i = 0; i < compTurns; i++) {
+              setTimeout(function () {
+                diceRoll();
+              }, 2000);
+
+              if (rollDice !== 1) {
+                scoreTwo += rollDice;
+                document.querySelector("#current--1").textContent = scoreTwo;
+              } else {
+                btnRoll.disabled = false;
+                playerTwo.classList.remove("player--active");
+                playerOne.classList.add("player--active");
+                player = 0;
+                scoreTwo = 0;
+                document.querySelector("#current--1").textContent = scoreOne;
+              }
+            }
+            if (playerTwoScore < 100) {
+              playerTwoScore += scoreTwo;
+              document.querySelector("#score--1").textContent = playerTwoScore;
+              playerTwo.classList.remove("player--active");
+              playerOne.classList.add("player--active");
+              player = 0;
+              scoreTwo = 0;
+              document.querySelector("#current--1").textContent = scoreTwo;
+            }
+
+            // Player two greater than 100
+            else if (playerTwoScore >= 100) {
+              document.querySelector(
+                "#name--1"
+              ).textContent = `Computer wins the game`;
+              document.querySelector("#score--1").textContent = playerTwoScore;
+              playerTwo.classList.add("player--winner");
+            }
+          }
         } else if (playerOneScore >= 100) {
           document.querySelector(
             "#name--0"
@@ -103,7 +156,9 @@ btnRoll.addEventListener("click", function () {
         btnRoll.disabled = false;
         playerOne.classList.remove("player--active");
         playerTwo.classList.add("player--active");
-        player = 1;
+
+        // if btnTwoPlayers is disabled, that means its vscomputer mode, then switch player to 1, else switch player to 2 (computer)
+        !btnTwoPlayers.disabled ? (player = 1) : (player = 2);
         scoreOne = 0;
         document.querySelector("#current--0").textContent = scoreOne;
       }, 3000);
@@ -151,6 +206,44 @@ btnRoll.addEventListener("click", function () {
       }, 3000);
     }
   }
+
+  // Computers turn
+  // else if (player == 2) {
+  //   btnRoll.disabled = true;
+  //   let compTurns = Math.trunc(Math.random() * 4) + 1;
+  //   for (let i = 0; i < compTurns; i++) {
+  //     diceRoll();
+  //     if (rollDice !== 1) {
+  //       scoreTwo += rollDice;
+  //       document.querySelector("#current--1").textContent = scoreTwo;
+  //     } else {
+  //       btnRoll.disabled = false;
+  //       setTimeout(function () {
+  //         playerTwo.classList.remove("player--active");
+  //         playerOne.classList.add("player--active");
+  //         player = 0;
+  //         scoreTwo = 0;
+  //         document.querySelector("#current--1").textContent = scoreOne;
+  //       }, 3000);
+  //     }
+  //   }
+  //   if (playerTwoScore < 100) {
+  //     playerTwoScore += scoreTwo;
+  //     document.querySelector("#score--1").textContent = playerTwoScore;
+  //     playerTwo.classList.remove("player--active");
+  //     playerOne.classList.add("player--active");
+  //     player = 0;
+  //     scoreTwo = 0;
+  //     document.querySelector("#current--1").textContent = scoreTwo;
+  //   }
+
+  //   // Player two greater than 100
+  //   else if (playerTwoScore >= 100) {
+  //     document.querySelector("#name--1").textContent = `Computer wins the game`;
+  //     document.querySelector("#score--1").textContent = playerTwoScore;
+  //     playerTwo.classList.add("player--winner");
+  //   }
+  // }
 });
 
 document.querySelector(".btn--new").addEventListener("click", function () {
@@ -170,4 +263,8 @@ document.querySelector(".btn--new").addEventListener("click", function () {
   playerTwo.classList.remove("player--winner");
   document.querySelector("#name--0").textContent = promptPlayerOne;
   document.querySelector("#name--1").textContent = promptPlayerTwo;
+  btnVsComputer.classList.remove("hidden");
+  btnTwoPlayers.classList.remove("hidden");
+  btnVsComputer.disabled = false;
+  btnTwoPlayers.disabled = false;
 });
